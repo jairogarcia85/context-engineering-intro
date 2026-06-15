@@ -1,0 +1,50 @@
+name: Deploy website to GitHub Pages
+
+# Publica la carpeta website/ en GitHub Pages.
+# Requisito (una sola vez): Settings -> Pages -> Source = "GitHub Actions".
+# GitHub Pages despliega desde la rama por defecto (main): fusiona esta rama a main
+# o lanza el workflow manualmente desde la pestaña Actions.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+# Permisos mínimos que necesita el despliegue de Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita despliegues solapados; no cancela uno en curso
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          # Activa GitHub Pages automáticamente si aún no lo está (usa el GITHUB_TOKEN)
+          enablement: true
+
+      - name: Upload website/ as Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./website
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
