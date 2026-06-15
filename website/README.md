@@ -26,17 +26,18 @@ python3 -m http.server 8000
 
 > Los reels de Instagram **necesitan conexión a internet** para renderizarse.
 
-## ✅ Cómo añadir tus reels (importante)
+## ✅ Cómo cambiar o añadir reels
 
-El sitio usa el **sistema oficial de incrustación de Instagram**. En `index.html`, en la sección
-`#reels`, hay bloques con marcadores `REEL_1`, `REEL_2`, etc.:
+El sitio usa el **sistema oficial de incrustación de Instagram**. En `index.html`, sección
+`#reels`, hay un bloque `<blockquote class="instagram-media">` por cada reel (actualmente 6,
+ordenados de más visto a menos):
 
-1. Abre el reel en Instagram y copia su URL, por ejemplo:
-   `https://www.instagram.com/reel/Cxxxxxxxxxx/`
-2. Pega esa URL en `data-instgrm-permalink="..."` reemplazando `REEL_1`, `REEL_2`...
+1. Abre el reel en Instagram → ··· / compartir → **Copiar enlace**
+   (ej. `https://www.instagram.com/reel/Cxxxxxxxxxx/`).
+2. Pega esa URL en `data-instgrm-permalink="..."` del bloque que quieras cambiar.
 3. Guarda y recarga. El script `embed.js` (ya incluido) los renderiza automáticamente.
 
-Puedes añadir o quitar bloques `<blockquote class="instagram-media">` según cuántos reels quieras.
+Para añadir o quitar reels, duplica o borra bloques `<blockquote class="instagram-media">`.
 
 ## Cómo personalizar
 
